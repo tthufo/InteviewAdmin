@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/tthufo/InteviewAdmin/precache-manifest.a9639ed2328a987ff9ee2d051075b884.js"
+  "/InteviewAdmin/precache-manifest.07d04a648d23b3ac77ba546a442572fe.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/tthufo/InteviewAdmin/index.html", {
+workbox.routing.registerNavigationRoute("/InteviewAdmin/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
