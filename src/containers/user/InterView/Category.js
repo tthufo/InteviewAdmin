@@ -99,7 +99,7 @@ class index extends Component {
     this.setState({ editData: {} });
   }
 
-  renderRow(category, onEdit) {
+  renderRow(category, onEdit, indexing) {
     return (
       <Row>
         <Col>
@@ -112,6 +112,10 @@ class index extends Component {
             minHeight: 50,
           }}
           >
+            <text style={{ margin: 'auto', width: '5%' }}>
+              {indexing + 1}
+              {' | '}
+            </text>
             <text style={{ margin: 'auto', width: '25%' }}>
               {category.name}
             </text>
@@ -172,7 +176,7 @@ class index extends Component {
                 </div>
               </CardHeader>
               <CardBody style={{ marginLeft: 15 }}>
-                {categories.map(category => this.renderRow(category, () => this.didPressEdit(category)))}
+                {categories.map((category, index) => this.renderRow(category, () => this.didPressEdit(category), index))}
               </CardBody>
             </Card>
           </div>

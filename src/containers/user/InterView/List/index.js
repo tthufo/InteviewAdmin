@@ -101,7 +101,7 @@ class index extends Component {
     }));
   }
 
-  renderRow(category, onEdit) {
+  renderRow(category, onEdit, indexing) {
     return (
       <Row>
         <Col>
@@ -114,15 +114,21 @@ class index extends Component {
             minHeight: 50,
           }}
           >
-            <text style={{ margin: 'auto', width: '25%' }}>
+            <text style={{ margin: 'auto', width: '5%' }}>
+              {indexing + 1}
+              {' | '}
+            </text>
+            <text style={{ margin: 'auto', width: '35%' }}>
               {category.name}
             </text>
-            <text style={{ margin: 'auto 10px auto 10px', width: '70%' }}>
+            <text style={{ margin: 'auto 10px auto 10px', width: '60%' }}>
+              Note:
+              {' '}
               {category.description}
             </text>
-            {/* <Button onClick={onEdit} style={{ margin: 'auto', width: '100' }}>
-              Edit
-            </Button> */}
+            <Button style={{ margin: 'auto', width: '100' }}>
+              -
+            </Button>
           </div>
           <div style={{
             flexDirection: 'row',
@@ -175,7 +181,7 @@ class index extends Component {
                 </div>
               </CardHeader>
               <CardBody style={{ marginLeft: 15 }}>
-                {categories && categories.map(category => this.renderRow(category, () => this.didPressEdit(category)))}
+                {categories && categories.map((category, index) => this.renderRow(category, () => this.didPressEdit(category), index))}
               </CardBody>
             </Card>
           </div>

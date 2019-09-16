@@ -12,7 +12,7 @@ export const UserNav = [
     to: '#/category/question',
   },
   {
-    icon: 'metismenu-icon pe-7s-config',
+    icon: 'metismenu-icon pe-7s-user',
     label: 'List Questions',
     to: '#/category/list',
   },
