@@ -1,0 +1,104 @@
+$bg-active-menu-item: #fff2cc;
+$color-active-menu-item: #f49100;
+
+.menu-container {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.metismenu-link {
+  display: block;
+  line-height: 2.5rem;
+  height: 2.5rem;
+  padding: 0 1.5rem 0 45px;
+  position: relative;
+  border-radius: .25rem;
+  white-space: nowrap;
+  outline: none!important;
+  text-decoration: none;
+  color: black;
+  position: relative;
+  &:hover {
+    text-decoration: none;
+    background: $bg-active-menu-item;
+    color: $color-active-menu-item;
+  }
+  &__active {
+    color: $color-active-menu-item !important;
+    background: $bg-active-menu-item;
+    font-weight: 700;
+  }
+}
+
+.metismenu-link:active {
+  display: block;
+  line-height: 2.5rem;
+  height: 2.5rem;
+  padding: 0 1.5rem 0 45px;
+  position: relative;
+  border-radius: .25rem;
+  white-space: nowrap;
+  outline: none!important;
+  text-decoration: none;
+  color: black;
+  position: relative;
+  &:hover {
+    text-decoration: none;
+    background: $bg-active-menu-item;
+    color: $color-active-menu-item;
+  }
+  &__active {
+    color: $color-active-menu-item !important;
+    background: $bg-active-menu-item;
+    font-weight: 700;
+  }
+}
+
+.metismenu-icon {
+  position: absolute;
+  left: 5px;
+  text-align: center;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  margin-top: -17px;
+  font-size: 1.5rem;
+  top: 50%;
+}
+
+.menu-item {
+  display: block;
+  line-height: 2.5rem;
+  height: 2.5rem;
+  padding: 0 1.5rem 0 45px;
+  position: relative;
+  border-radius: .25rem;
+  white-space: nowrap;
+  outline: none!important;
+  text-decoration: none;
+  color: black;
+  position: relative;
+  &:hover {
+    text-decoration: none;
+    background: $bg-active-menu-item;
+    color: $color-active-menu-item;
+  }
+  &__active {
+    color: $color-active-menu-item !important;
+    background: $bg-active-menu-item;
+    font-weight: 700;
+  }
+}
+
+.menu-item__icon {
+  position: absolute;
+  left: 5px;
+  text-align: center;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  margin-top: -17px;
+  font-size: 1.5rem;
+  top: 50%;
+}

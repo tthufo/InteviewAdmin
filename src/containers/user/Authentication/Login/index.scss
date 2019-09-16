@@ -1,0 +1,22 @@
+a, a:visited, a:hover, a:active {
+    color: #1D3B6C;
+  }
+
+.warp-slide {
+  display: flex;
+  flex-direction: column;
+  height: 250px !important;
+}
+
+.slide-header {
+  height: 70px !important;
+}
+.slide-content {
+  flex: 1;
+  justify-content: flex-start
+}
+@media (max-width: 1599px) {
+  .slide-header {
+     font-size: 21px !important
+  }
+}

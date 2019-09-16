@@ -1,0 +1,38 @@
+
+.hamburger-inner {
+  background-color: white;
+  &::before {
+    background-color: white;
+  }
+  &::after{
+    background-color: white;
+  }
+}
+
+.hamburger.is-active .hamburger-inner {
+  background-color: white;
+  &::before {
+    background-color: white;
+  }
+  &::after{
+    background-color: white;
+  } 
+}
+
+.logo-src__black {
+  cursor: pointer;
+  height: 45px;
+  width: 135px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('~assets/utils/images/logo.png');
+}
+
+.logo-src__white {
+  cursor: pointer;
+  height: 45px;
+  width: 135px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('~assets/utils/images/logo-inverse.png');
+}

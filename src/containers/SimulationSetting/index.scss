@@ -1,0 +1,20 @@
+//OVERRIDE STEPPER
+$stepper_color:#6fa8dcff;
+$previos_stepper_color: #cfe2f3ff;
+
+
+.forms-wizard li.form-wizard-step-done::after, 
+.forms-wizard li.form-wizard-step-done::before, 
+.forms-wizard li.form-wizard-step-done em,
+.forms-wizard li.form-wizard-step-doing::before,
+.forms-wizard li.form-wizard-step-doing em {
+  background: $stepper_color;
+}
+
+
+.forms-wizard li.form-wizard-step-doing::after,
+.forms-wizard li::after,
+.forms-wizard li::before,
+.forms-wizard li em {
+  background: $previos_stepper_color;
+}

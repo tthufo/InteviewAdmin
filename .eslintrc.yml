@@ -1,0 +1,18 @@
+extends: airbnb
+parser: babel-eslint
+globals:
+  window: true,
+  document: true,
+  localStorage: true,
+  fetch: true,
+  FormData: true,
+rules:
+ camelcase: 0
+ react/forbid-prop-types : 0,
+ react/prop-types: 0,
+ linebreak-style: 0
+ react/jsx-filename-extension:
+    - 1
+    - extensions:
+        - .js
+        - .jsx

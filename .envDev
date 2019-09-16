@@ -1,0 +1,4 @@
+NODE_PATH=./src
+REACT_APP_BACKEND_HOST='http://profinanssdev-env.sdf249p7zi.ap-southeast-1.elasticbeanstalk.com'
+REACT_APP_CLIENT_ID=2
+REACT_APP_CLIENT_SECRET=iwZ391XDKvuy9ThWRf3CgPkk13fH0jeLcVRQYAyt

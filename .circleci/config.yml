@@ -1,0 +1,22 @@
+version: 2
+general:
+  branches:
+    only:
+      - develop
+      - staging
+      - prod
+jobs:
+  build:
+    docker:
+      - image: ellerbrock/alpine-curl-ssl
+    steps:
+      - run:
+          name: Send API trigger
+          command: |
+            export API_URL="https://circleci.com/api/v1.1/project/github/Innovatube/profinanss-production-server/build?circle-token=${CIRCLE_CI_TOKEN}"
+            echo Send to: ${API_URL}
+            curl -X POST ${API_URL} -F branch=${CIRCLE_BRANCH}
+
+
+
+

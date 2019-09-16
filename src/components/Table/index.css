@@ -1,0 +1,10 @@
+.on:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    color:#65A7DF;
+}
+
+.on {
+    text-decoration: underline;
+    cursor: pointer;
+}

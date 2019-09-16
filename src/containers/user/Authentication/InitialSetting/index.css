@@ -1,0 +1,7 @@
+.w-200{
+  max-width: 800px;
+}
+
+.grad {
+  background-image: linear-gradient(-90deg, #1D3B6C, #2b58a2ff);
+}
