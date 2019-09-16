@@ -4,8 +4,8 @@
   "private": true,
   "description": "Profinanss",
   "author": "DashboardPack.com",
-  "proxy": "https://github.com/tthufo/InteviewAdmin",
-  "homepage": "https://github.com/tthufo/InteviewAdmin",
+  "proxy": "https://tthufo.github.io/InteviewAdmin",
+  "homepage": "https://tthufo.github.io/InteviewAdmin",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dpackdev/architectui-react-pro"
