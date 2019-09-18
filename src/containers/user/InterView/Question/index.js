@@ -70,25 +70,43 @@ class index extends Component {
     }
   }
 
-  async delCategory() {
+  async delQuestion() {
     const { categoryId } = this.state;
     this.setState({ forceValidate: false, isOpen: false });
     try {
-      await API.category.delCategory({ catId: categoryId });
-      this.getCategory();
+      await API.question.delQuestion({ questionId: categoryId });
+      this.getQuestion();
     } catch (error) {
       console.log(error);
     }
   }
 
-  async editCategory() {
+  async editQuestion() {
     const { editData, categoryId } = this.state;
     this.setState({ forceValidate: true });
-    if (editData.name && editData.name !== '' && editData.desc && editData.desc !== '') {
+    const question = {
+      questions: [{ question: editData.q1, id: editData.id1 },
+        { question: editData.q2, id: editData.id2 },
+        { question: editData.q3, id: editData.id3 },
+        { question: editData.q4, id: editData.id4 }],
+      questionId: categoryId,
+      category: editData.category,
+      subject: editData.subject,
+      answerId: editData.answerId,
+      categoryId: editData.catId,
+    };
+    if (editData.q1 && editData.q1 !== ''
+    && editData.q2 && editData.q2 !== ''
+    && editData.q3 && editData.q3 !== ''
+    && editData.q4 && editData.q4 !== ''
+    && editData.subject && editData.subject !== ''
+    && editData.answerId !== undefined
+    ) {
       this.setState({ forceValidate: false, isOpen: false });
       try {
-        await API.category.editCategory({ catId: categoryId, name: editData.name, desc: editData.desc });
-        this.getCategory();
+        await API.question.editQuestion({ question: JSON.stringify(question) });
+        this.getQuestion();
+        this.setState({ editData: {} });
       } catch (error) {
         console.log(error);
       }
@@ -97,10 +115,13 @@ class index extends Component {
 
   didPressEdit(category) {
     const editData = { ...this.state.editData };
-    editData.name = category.name || '';
-    editData.desc = category.description || '';
+    editData.category = category.category || '';
+    editData.subject = category.subject || '';
+    editData.catId = category.catId || '';
+    editData.answerId = category.resultId || '';
+    editData.questionId = category.questionId || '';
     this.setState({
-      categoryId: category.id,
+      categoryId: category.questionId,
       isEdit: true,
       editData,
       isOpen: true,
@@ -138,8 +159,8 @@ class index extends Component {
               {' '}
               {category.category}
             </text>
-            <Button style={{ margin: 'auto', width: '100' }}>
-              -
+            <Button onClick={onEdit} style={{ margin: 'auto', width: '100' }}>
+              Edit
             </Button>
           </div>
           <div style={{
@@ -217,20 +238,20 @@ class index extends Component {
                 <Col xl={12}>
                   <Button
                     color="primary"
-                    onClick={() => (isEdit ? this.editCategory() : this.postQuestion())}
+                    onClick={() => (isEdit ? this.editQuestion() : this.postQuestion())}
                   >
                     {isEdit ? 'Update' : 'Create'}
                   </Button>
-                  {isEdit
+                  {/* {isEdit
                   && (
                   <Button
                     color="danger"
                     style={{ marginLeft: 10 }}
-                    onClick={() => this.delCategory()}
+                    onClick={() => this.delQuestion()}
                   >
                     Delete
                   </Button>
-                  )}
+                  )} */}
                 </Col>
               </Row>
             </ModalBody>

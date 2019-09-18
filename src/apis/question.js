@@ -4,6 +4,7 @@ const getQuestion = async params => axiosCallApi('/question/getQuestion', 'get',
 const postQuestion = async params => axiosCallApi('/question/postQuestion', 'post', params);
 const editQuestion = async params => axiosCallApi('/question/editQuestion', 'post', params);
 const delQuestion = async params => axiosCallApi('/question/delQuestion', 'post', params);
+const getQuestionId = async params => axiosCallApi('/question/getQuestionId', 'post', params);
 
 
 const getAnswer = async params => axiosCallApi('/answer/getAnswer', 'get', params);
@@ -22,4 +23,5 @@ export default {
   getListConfig,
   getList,
   postList,
+  getQuestionId,
 };

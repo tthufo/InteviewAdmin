@@ -26,10 +26,16 @@ class GroupInput extends React.PureComponent {
       data: props.data,
       categories: [],
     };
+
+    console.log(this.state.data);
   }
 
   componentDidMount() {
+    const { data } = this.state;
     this.getCategory();
+    if (data.questionId) {
+      this.getQuestion();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,19 +58,40 @@ class GroupInput extends React.PureComponent {
       const val = value.target.value;
       inputData[type] = val;
     }
-    console.log(inputData);
     this.setState({ data: inputData }, onChangeData(inputData));
   }
 
   async getCategory() {
+    const { data } = this.state;
     try {
       const result = await API.category.getCategory();
       const categories = result && result.data;
       this.setState({ categories });
       const inputData = { ...this.state.data };
-      inputData.category = categories[0].name;
-      inputData.catId = categories[0].id;
+      inputData.category = data.questionId ? data.category : categories[0].name;
+      inputData.catId = data.questionId ? data.catId : categories[0].id;
       this.setState({ data: inputData });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getQuestion() {
+    const { data } = this.state;
+    const { onChangeData } = this.props;
+    try {
+      const result = await API.question.getQuestionId({ questionId: data.questionId });
+      const questions = result && result.data;
+      const inputData = { ...this.state.data };
+      inputData.id1 = questions[0].id;
+      inputData.id2 = questions[1].id;
+      inputData.id3 = questions[2].id;
+      inputData.id4 = questions[3].id;
+      inputData.q1 = questions[0].question;
+      inputData.q2 = questions[1].question;
+      inputData.q3 = questions[2].question;
+      inputData.q4 = questions[3].question;
+      this.setState({ data: inputData }, onChangeData(inputData));
     } catch (error) {
       console.log(error);
     }
@@ -86,6 +113,7 @@ class GroupInput extends React.PureComponent {
               <Input
                 value={data.category}
                 type="select"
+                disabled={data.questionId}
                 onChange={e => this.onChangeValue('category', e)}
               >
                 {
