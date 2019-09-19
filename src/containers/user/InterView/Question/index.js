@@ -131,7 +131,11 @@ class index extends Component {
   toggle() {
     this.setState(prevState => ({
       isOpen: !prevState.isOpen,
-    }));
+    }), () => {
+      if (!this.state.isOpen) {
+        this.setState({ editData: {}, isEdit: false });
+      }
+    });
   }
 
   renderRow(category, onEdit, indexing) {
