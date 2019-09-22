@@ -63,12 +63,39 @@ class GroupInput extends React.PureComponent {
 
   async getListConfig() {
     const { onChangeData } = this.props;
+    const { info: { listId } } = this.state;
     try {
       const result = await API.question.getListConfig();
       const categories = result && result.data;
       const temp = [];
       categories.map(list => temp.push({ categoryId: list.categoryId, questions: 1 }));
       this.setState({ data: temp, categories }, onChangeData(temp));
+      if (listId) {
+        this.getListConfigId();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getListConfigId() {
+    const { onChangeData } = this.props;
+    const { info: { listId }, categories } = this.state;
+    try {
+      const result = await API.question.getListConfigId({ id: listId });
+      const list = result && result.data;
+      const config = JSON.parse(list.config);
+      const temp = [];
+      config.map((con) => {
+        categories.map((cat) => {
+          if (cat.categoryId === con.categoryId) {
+            temp.push({ categoryId: cat.categoryId, questions: con.questions >= cat.total ? cat.total : con.questions, checked: (con.checked && con.checked === 1) ? 1 : 0 });
+          }
+          return null;
+        });
+        return null;
+      });
+      this.setState({ data: temp }, onChangeData(temp));
     } catch (error) {
       console.log(error);
     }
@@ -82,7 +109,7 @@ class GroupInput extends React.PureComponent {
     return opt;
   }
 
-  renderRow(category) {
+  renderRow(category, index) {
     const { data } = this.state;
     return (
       <Row>
@@ -96,21 +123,30 @@ class GroupInput extends React.PureComponent {
             minHeight: 50,
           }}
           >
+            <text style={{ margin: 'auto', width: '5%' }}>
+              {index + 1}
+              {' | '}
+            </text>
             <input
               style={{ margin: 'auto', width: '5%' }}
               type="checkbox"
               disabled={category.total === 0}
-              // checked={data.checked !== undefined}
+              checked={data[index] && data[index].checked === 1}
               onChange={e => this.onChangeValue(`${category.categoryId}_checked`, e)}
             />
             <text style={{ textAlign: 'center', margin: 'auto', width: '70%' }}>
+              Category:
+              {' '}
               {category.category}
+              {' '}
+              |
+              Question(s):
               {' '}
               {`(${category.total})`}
             </text>
             <Input
-              // value={category.}
-              style={{ width: '25%' }}
+              value={data[index] && data[index].questions}
+              style={{ width: '25%', margin: 'auto' }}
               type="select"
               disabled={category.total === 0}
               onChange={e => this.onChangeValue(`${category.categoryId}_questions`, e)}
@@ -139,7 +175,7 @@ class GroupInput extends React.PureComponent {
       forceValidate,
     } = this.props;
     const { data, categories, info } = this.state;
-    const check = data.filter(data => data.checked && data.checked === 1);
+    const check = (data && data.filter(data => data.checked && data.checked === 1)) || [];
     return (
       <React.Fragment>
         <Row>
@@ -154,7 +190,7 @@ class GroupInput extends React.PureComponent {
                 value={info.name}
               />
               <ErrorMessage
-                message="Empty"
+                message="Name empty./"
                 edited={info.name && info.name !== ''}
                 forceValidate={forceValidate}
               />
@@ -171,7 +207,7 @@ class GroupInput extends React.PureComponent {
                 value={info.description}
               />
               <ErrorMessage
-                message="Empty"
+                message="Description empty./"
                 edited={info.description && info.description !== ''}
                 forceValidate={forceValidate}
               />
@@ -179,11 +215,11 @@ class GroupInput extends React.PureComponent {
           </Col>
           <Col xl={12}>
             <FormGroup>
-              <Label><b>Options</b></Label>
+              <Label><b>Option(s)</b></Label>
               <br />
-              {categories.map(category => this.renderRow(category))}
+              {categories.map((category, index) => this.renderRow(category, index))}
               <ErrorMessage
-                message="Checked"
+                message="Option empty./"
                 edited={check.length !== 0}
                 forceValidate={forceValidate}
               />

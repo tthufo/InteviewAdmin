@@ -7,9 +7,11 @@ import {
 } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import Loader from 'react-loaders';
+import { toast } from 'react-toastify';
 import GroupInput from './GroupInput';
-import API from '../../../apis';
-import PageTitle from '../../../Layout/AppMain/PageTitle';
+import API from '../../../../apis';
+import PageTitle from '../../../../Layout/AppMain/PageTitle';
+import Emp from '../empty';
 
 class index extends Component {
   constructor(props) {
@@ -49,6 +51,14 @@ class index extends Component {
         this.setState({ editData: {} });
       } catch (error) {
         console.log(error);
+        toast.error('Create category error, new category proly existed', {
+          position: 'top-center',
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     }
   }
@@ -76,6 +86,14 @@ class index extends Component {
         this.setState({ editData: {} });
       } catch (error) {
         console.log(error);
+        toast.error('Edit category error, new category proly existed', {
+          position: 'top-center',
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     }
   }
@@ -95,8 +113,11 @@ class index extends Component {
   toggle() {
     this.setState(prevState => ({
       isOpen: !prevState.isOpen,
-    }));
-    this.setState({ editData: {} });
+    }), () => {
+      if (!this.state.isOpen) {
+        this.setState({ editData: {}, isEdit: false });
+      }
+    });
   }
 
   renderRow(category, onEdit, indexing) {
@@ -117,13 +138,17 @@ class index extends Component {
               {' | '}
             </text>
             <text style={{ margin: 'auto', width: '25%' }}>
+              Category:
+              {' '}
               {category.name}
             </text>
             <text style={{ margin: 'auto 10px auto 10px', width: '70%' }}>
+              Note:
+              {' '}
               {category.description}
             </text>
             <Button onClick={onEdit} style={{ margin: 'auto', width: '100' }}>
-            Edit
+              Edit
             </Button>
           </div>
           <div style={{
@@ -175,8 +200,9 @@ class index extends Component {
                   </Button>
                 </div>
               </CardHeader>
-              <CardBody style={{ marginLeft: 15 }}>
-                {categories.map((category, index) => this.renderRow(category, () => this.didPressEdit(category), index))}
+              <CardBody>
+                {categories.length === 0 ? <Emp name="Category Empty./" />
+                  : categories && categories.map((category, index) => this.renderRow(category, () => this.didPressEdit(category), index))}
               </CardBody>
             </Card>
           </div>
@@ -191,7 +217,7 @@ class index extends Component {
             toggle={() => this.toggle()}
           >
             <ModalBody>
-              <h5><b>Category</b></h5>
+              <h5><b>{isEdit ? 'Edit Category' : 'Create Category'}</b></h5>
               <GroupInput
                 data={editData}
                 forceValidate={forceValidate}

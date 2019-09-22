@@ -3,7 +3,7 @@ import {
   Row, Col, FormGroup, Label,
 } from 'reactstrap';
 
-import InputComponent from '../../../components/FormGroup/Input';
+import InputComponent from '../../../../components/FormGroup/Input';
 
 const ErrorMessage = ({
   message, forceValidate, edited,
@@ -61,7 +61,7 @@ class GroupInput extends React.PureComponent {
                 value={data.name}
               />
               <ErrorMessage
-                message="Empty"
+                message="Category empty./"
                 edited={data.name && data.name !== ''}
                 forceValidate={forceValidate}
               />
@@ -78,7 +78,7 @@ class GroupInput extends React.PureComponent {
                 value={data.desc}
               />
               <ErrorMessage
-                message="Empty"
+                message="Description empty./"
                 edited={data.desc && data.desc !== ''}
                 forceValidate={forceValidate}
               />

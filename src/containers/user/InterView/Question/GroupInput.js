@@ -4,6 +4,7 @@ import {
 } from 'reactstrap';
 import API from '../../../../apis';
 import InputComponent from '../../../../components/FormGroup/Input';
+import question from '../../../../apis/question';
 
 const ErrorMessage = ({
   message, forceValidate, edited,
@@ -26,8 +27,6 @@ class GroupInput extends React.PureComponent {
       data: props.data,
       categories: [],
     };
-
-    console.log(this.state.data);
   }
 
   componentDidMount() {
@@ -63,10 +62,11 @@ class GroupInput extends React.PureComponent {
 
   async getCategory() {
     const { data } = this.state;
+    const { onDisable } = this.props;
     try {
       const result = await API.category.getCategory();
       const categories = result && result.data;
-      this.setState({ categories });
+      this.setState({ categories }, () => { if (categories.length === 0) { onDisable(); } });
       const inputData = { ...this.state.data };
       inputData.category = data.questionId ? data.category : categories[0].name;
       inputData.catId = data.questionId ? data.catId : categories[0].id;
@@ -91,6 +91,7 @@ class GroupInput extends React.PureComponent {
       inputData.q2 = questions[1].question;
       inputData.q3 = questions[2].question;
       inputData.q4 = questions[3].question;
+      inputData.answerId = questions[0].resultId;
       this.setState({ data: inputData }, onChangeData(inputData));
     } catch (error) {
       console.log(error);
@@ -120,6 +121,11 @@ class GroupInput extends React.PureComponent {
                   categories.map(m => <option>{m.name}</option>)
                 }
               </Input>
+              <ErrorMessage
+                message="Category empty./"
+                edited={categories && categories.length !== 0}
+                forceValidate
+              />
             </FormGroup>
           </Col>
           <Col xl={12}>
@@ -128,12 +134,13 @@ class GroupInput extends React.PureComponent {
               <br />
               <InputComponent
                 type="text_area"
+                disabled={categories.length === 0}
                 errors={[]}
                 onChange={e => this.onChangeValue('subject', e)}
                 value={data.subject}
               />
               <ErrorMessage
-                message="Empty"
+                message="Question empty./"
                 edited={data.subject && data.subject !== ''}
                 forceValidate={forceValidate}
               />
@@ -141,15 +148,16 @@ class GroupInput extends React.PureComponent {
           </Col>
           <Col xl={6}>
             <FormGroup>
-              <Label><b>Q1</b></Label>
+              <Label><b>Answer A|</b></Label>
               <input
                 style={{ marginLeft: 10 }}
                 type="radio"
+                disabled={categories.length === 0}
                 checked={data.answerId === 0}
                 onChange={() => this.onChangeValue('answerId', 0)}
               />
               <ErrorMessage
-                message="Check"
+                message="Select one./"
                 edited={data.answerId !== undefined}
                 forceValidate={forceValidate}
               />
@@ -157,11 +165,12 @@ class GroupInput extends React.PureComponent {
               <InputComponent
                 type="text_area"
                 errors={[]}
+                disabled={categories.length === 0}
                 onChange={e => this.onChangeValue('q1', e)}
                 value={data.q1}
               />
               <ErrorMessage
-                message="Empty"
+                message="Answer A empty./"
                 edited={data.q1 && data.q1 !== ''}
                 forceValidate={forceValidate}
               />
@@ -169,15 +178,16 @@ class GroupInput extends React.PureComponent {
           </Col>
           <Col xl={6}>
             <FormGroup>
-              <Label><b>Q2</b></Label>
+              <Label><b>Answer B|</b></Label>
               <input
                 style={{ marginLeft: 10 }}
                 type="radio"
+                disabled={categories.length === 0}
                 checked={data.answerId === 1}
                 onChange={() => this.onChangeValue('answerId', 1)}
               />
               <ErrorMessage
-                message="Check"
+                message="Select one./"
                 edited={data.answerId !== undefined}
                 forceValidate={forceValidate}
               />
@@ -185,11 +195,12 @@ class GroupInput extends React.PureComponent {
               <InputComponent
                 type="text_area"
                 errors={[]}
+                disabled={categories.length === 0}
                 onChange={e => this.onChangeValue('q2', e)}
                 value={data.q2}
               />
               <ErrorMessage
-                message="Empty"
+                message="Answer B empty./"
                 edited={data.q2 && data.q2 !== ''}
                 forceValidate={forceValidate}
               />
@@ -197,15 +208,16 @@ class GroupInput extends React.PureComponent {
           </Col>
           <Col xl={6}>
             <FormGroup>
-              <Label><b>Q3</b></Label>
+              <Label><b>Answer C|</b></Label>
               <input
                 style={{ marginLeft: 10 }}
                 type="radio"
+                disabled={categories.length === 0}
                 checked={data.answerId === 2}
                 onChange={() => this.onChangeValue('answerId', 2)}
               />
               <ErrorMessage
-                message="Check"
+                message="Select one./"
                 edited={data.answerId !== undefined}
                 forceValidate={forceValidate}
               />
@@ -213,11 +225,12 @@ class GroupInput extends React.PureComponent {
               <InputComponent
                 type="text_area"
                 errors={[]}
+                disabled={categories.length === 0}
                 onChange={e => this.onChangeValue('q3', e)}
                 value={data.q3}
               />
               <ErrorMessage
-                message="Empty"
+                message="Answer C empty./"
                 edited={data.q3 && data.q3 !== ''}
                 forceValidate={forceValidate}
               />
@@ -225,15 +238,16 @@ class GroupInput extends React.PureComponent {
           </Col>
           <Col xl={6}>
             <FormGroup>
-              <Label><b>Q4</b></Label>
+              <Label><b>Answer D|</b></Label>
               <input
                 style={{ marginLeft: 10 }}
                 type="radio"
+                disabled={categories.length === 0}
                 checked={data.answerId === 3}
                 onChange={() => this.onChangeValue('answerId', 3)}
               />
               <ErrorMessage
-                message="Check"
+                message="Select one./"
                 edited={data.answerId !== undefined}
                 forceValidate={forceValidate}
               />
@@ -241,11 +255,12 @@ class GroupInput extends React.PureComponent {
               <InputComponent
                 type="text_area"
                 errors={[]}
+                disabled={categories.length === 0}
                 onChange={e => this.onChangeValue('q4', e)}
                 value={data.q4}
               />
               <ErrorMessage
-                message="Empty"
+                message="Answer D empty./"
                 edited={data.q4 && data.q4 !== ''}
                 forceValidate={forceValidate}
               />

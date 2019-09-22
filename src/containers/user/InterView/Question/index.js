@@ -7,9 +7,11 @@ import {
 } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import Loader from 'react-loaders';
+import { toast } from 'react-toastify';
 import GroupInput from './GroupInput';
 import API from '../../../../apis';
 import PageTitle from '../../../../Layout/AppMain/PageTitle';
+import Emp from '../empty';
 
 class index extends Component {
   constructor(props) {
@@ -20,6 +22,7 @@ class index extends Component {
       editData: {},
       forceValidate: false,
       isEdit: false,
+      isDisable: false,
       categoryId: '',
     };
   }
@@ -63,9 +66,17 @@ class index extends Component {
       try {
         await API.question.postQuestion({ question: JSON.stringify(question) });
         this.getQuestion();
-        this.setState({ editData: {} });
+        this.setState({ editData: {}, isEdit: false, forceValidate: false });
       } catch (error) {
         console.log(error);
+        toast.error('Create question error, new question proly existed', {
+          position: 'top-center',
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     }
   }
@@ -106,7 +117,7 @@ class index extends Component {
       try {
         await API.question.editQuestion({ question: JSON.stringify(question) });
         this.getQuestion();
-        this.setState({ editData: {} });
+        this.setState({ editData: {}, isEdit: false, forceValidate: false });
       } catch (error) {
         console.log(error);
       }
@@ -124,8 +135,7 @@ class index extends Component {
       categoryId: category.questionId,
       isEdit: true,
       editData,
-      isOpen: true,
-    });
+    }, () => this.setState({ isOpen: true }));
   }
 
   toggle() {
@@ -133,7 +143,9 @@ class index extends Component {
       isOpen: !prevState.isOpen,
     }), () => {
       if (!this.state.isOpen) {
-        this.setState({ editData: {}, isEdit: false });
+        this.setState({
+          editData: {}, isEdit: false, forceValidate: false, isDisable: false,
+        });
       }
     });
   }
@@ -186,7 +198,7 @@ class index extends Component {
       categories,
       editData,
       forceValidate,
-      isEdit,
+      isEdit, isDisable,
     } = this.state;
     return (
       <Fragment>
@@ -217,7 +229,8 @@ class index extends Component {
                 </div>
               </CardHeader>
               <CardBody style={{ marginLeft: 15 }}>
-                {categories && categories.map((category, index) => this.renderRow(category, () => this.didPressEdit(category), index))}
+                {categories.length === 0 ? <Emp name="Question Empty./" />
+                  : categories && categories.map((category, index) => this.renderRow(category, () => this.didPressEdit(category), index))}
               </CardBody>
             </Card>
           </div>
@@ -232,21 +245,33 @@ class index extends Component {
             toggle={() => this.toggle()}
           >
             <ModalBody>
-              <h5><b>Question</b></h5>
+              <h5><b>{isEdit ? 'Edit Question' : 'Create Question'}</b></h5>
               <GroupInput
                 data={editData}
                 forceValidate={forceValidate}
                 onChangeData={(dat) => { this.setState({ editData: dat }); }}
+                onDisable={() => this.setState({ isDisable: true })}
               />
               <Row>
                 <Col xl={12}>
-                  <Button
-                    color="primary"
-                    onClick={() => (isEdit ? this.editQuestion() : this.postQuestion())}
-                  >
-                    {isEdit ? 'Update' : 'Create'}
-                  </Button>
-                  {/* {isEdit
+                  {!isDisable
+                    ? (
+                      <Button
+                        color="primary"
+                        onClick={() => (isEdit ? this.editQuestion() : this.postQuestion())}
+                      >
+                        {isEdit ? 'Update' : 'Create'}
+                      </Button>
+                    ) : (
+                      null
+                      // <Button
+                      //   color="primary"
+                      //   onClick={() => this.props.history.push('/category')}
+                      // >
+                      //   Go to Category
+                      // </Button>
+                    )}
+                  {isEdit
                   && (
                   <Button
                     color="danger"
@@ -255,7 +280,7 @@ class index extends Component {
                   >
                     Delete
                   </Button>
-                  )} */}
+                  )}
                 </Col>
               </Row>
             </ModalBody>

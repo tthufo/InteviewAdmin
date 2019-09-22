@@ -10,6 +10,7 @@ import Loader from 'react-loaders';
 import GroupInput from './GroupInput';
 import API from '../../../../apis';
 import PageTitle from '../../../../Layout/AppMain/PageTitle';
+import Emp from '../empty';
 
 class index extends Component {
   constructor(props) {
@@ -42,41 +43,42 @@ class index extends Component {
   async postListQuestion() {
     const { editData, info } = this.state;
     this.setState({ forceValidate: true });
-    // const question = {
-    //   config: editData,
-    // };
     const check = editData.filter(data => data.checked && data.checked === 1);
     if (info.description && info.description !== '' && info.name && info.name !== '' && check.length !== 0) {
-      this.setState({ forceValidate: false, isOpen: false });
+      this.setState({
+        forceValidate: false, isOpen: false, editData: [], info: {}, isEdit: false,
+      });
       try {
         await API.question.postList({ name: info.name, desc: info.description, config: JSON.stringify(editData) });
         this.getListQuestion();
-        this.setState({ editData: [], info: {} });
       } catch (error) {
         console.log(error);
       }
     }
   }
 
-  async delCategory() {
+  async delListQuestion() {
     const { categoryId } = this.state;
     this.setState({ forceValidate: false, isOpen: false });
     try {
-      await API.category.delCategory({ catId: categoryId });
-      this.getCategory();
+      await API.question.delList({ id: categoryId });
+      this.getListQuestion();
     } catch (error) {
       console.log(error);
     }
   }
 
-  async editCategory() {
-    const { editData, categoryId } = this.state;
+  async editListQuestion() {
+    const { editData, info, categoryId } = this.state;
     this.setState({ forceValidate: true });
-    if (editData.name && editData.name !== '' && editData.desc && editData.desc !== '') {
+    const check = editData.filter(data => data.checked && data.checked === 1);
+    if (info.description && info.description !== '' && info.name && info.name !== '' && check.length !== 0) {
       this.setState({ forceValidate: false, isOpen: false });
       try {
-        await API.category.editCategory({ catId: categoryId, name: editData.name, desc: editData.desc });
-        this.getCategory();
+        await API.question.editList({
+          id: categoryId, name: info.name, desc: info.description, config: JSON.stringify(editData),
+        });
+        this.getListQuestion();
       } catch (error) {
         console.log(error);
       }
@@ -84,10 +86,9 @@ class index extends Component {
   }
 
   didPressEdit(category) {
-    const editData = { ...this.state.editData };
-    editData.name = category.name || '';
-    editData.desc = category.description || '';
+    const editData = [...this.state.editData];
     this.setState({
+      info: { listId: category.id, name: category.name, description: category.description },
       categoryId: category.id,
       isEdit: true,
       editData,
@@ -98,7 +99,13 @@ class index extends Component {
   toggle() {
     this.setState(prevState => ({
       isOpen: !prevState.isOpen,
-    }));
+    }), () => {
+      if (!this.state.isOpen) {
+        this.setState({
+          editData: [], info: {}, isEdit: false, forceValidate: false,
+        });
+      }
+    });
   }
 
   renderRow(category, onEdit, indexing) {
@@ -119,6 +126,8 @@ class index extends Component {
               {' | '}
             </text>
             <text style={{ margin: 'auto', width: '35%' }}>
+              List:
+              {' '}
               {category.name}
             </text>
             <text style={{ margin: 'auto 10px auto 10px', width: '60%' }}>
@@ -126,8 +135,8 @@ class index extends Component {
               {' '}
               {category.description}
             </text>
-            <Button style={{ margin: 'auto', width: '100' }}>
-              -
+            <Button onClick={onEdit} style={{ margin: 'auto', width: '100' }}>
+              Edit
             </Button>
           </div>
           <div style={{
@@ -181,7 +190,8 @@ class index extends Component {
                 </div>
               </CardHeader>
               <CardBody style={{ marginLeft: 15 }}>
-                {categories && categories.map((category, index) => this.renderRow(category, () => this.didPressEdit(category), index))}
+                {categories.length === 0 ? <Emp name="List Question Empty./" />
+                  : categories && categories.map((category, index) => this.renderRow(category, () => this.didPressEdit(category), index))}
               </CardBody>
             </Card>
           </div>
@@ -196,19 +206,19 @@ class index extends Component {
             toggle={() => this.toggle()}
           >
             <ModalBody>
-              <h5><b>Config</b></h5>
+              <h5><b>{isEdit ? 'Edit List Question' : 'Create List Question'}</b></h5>
               <GroupInput
                 data={editData}
                 info={info}
                 forceValidate={forceValidate}
-                onChangeData={(dat) => { this.setState({ editData: dat }); console.log(dat); }}
+                onChangeData={(dat) => { this.setState({ editData: dat }); }}
                 onChangeInfo={(info) => { this.setState({ info }); }}
               />
               <Row>
                 <Col xl={12}>
                   <Button
                     color="primary"
-                    onClick={() => (isEdit ? this.editCategory() : this.postListQuestion())}
+                    onClick={() => (isEdit ? this.editListQuestion() : this.postListQuestion())}
                   >
                     {isEdit ? 'Update' : 'Create'}
                   </Button>
@@ -217,7 +227,7 @@ class index extends Component {
                   <Button
                     color="danger"
                     style={{ marginLeft: 10 }}
-                    onClick={() => this.delCategory()}
+                    onClick={() => this.delListQuestion()}
                   >
                     Delete
                   </Button>
