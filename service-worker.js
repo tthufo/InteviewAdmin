@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/InteviewAdmin/precache-manifest.e7aabff13d92a023382703a7045e733b.js"
+  "/InteviewAdmin/precache-manifest.b3a8d93fce484e9dbf455d3869ba0c65.js"
 );
 
 workbox.clientsClaim();
