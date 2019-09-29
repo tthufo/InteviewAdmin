@@ -124,7 +124,7 @@ class GroupInput extends React.PureComponent {
               <ErrorMessage
                 message="Category empty./"
                 edited={categories && categories.length !== 0}
-                forceValidate
+                forceValidate={forceValidate}
               />
             </FormGroup>
           </Col>
@@ -134,7 +134,7 @@ class GroupInput extends React.PureComponent {
               <br />
               <InputComponent
                 type="text_area"
-                disabled={categories.length === 0}
+                // disabled={categories.length === 0}
                 errors={[]}
                 onChange={e => this.onChangeValue('subject', e)}
                 value={data.subject}
@@ -152,7 +152,7 @@ class GroupInput extends React.PureComponent {
               <input
                 style={{ marginLeft: 10 }}
                 type="radio"
-                disabled={categories.length === 0}
+                // disabled={categories.length === 0}
                 checked={data.answerId === 0}
                 onChange={() => this.onChangeValue('answerId', 0)}
               />
@@ -165,7 +165,7 @@ class GroupInput extends React.PureComponent {
               <InputComponent
                 type="text_area"
                 errors={[]}
-                disabled={categories.length === 0}
+                // disabled={categories.length === 0}
                 onChange={e => this.onChangeValue('q1', e)}
                 value={data.q1}
               />
@@ -182,7 +182,7 @@ class GroupInput extends React.PureComponent {
               <input
                 style={{ marginLeft: 10 }}
                 type="radio"
-                disabled={categories.length === 0}
+                // disabled={categories.length === 0}
                 checked={data.answerId === 1}
                 onChange={() => this.onChangeValue('answerId', 1)}
               />
@@ -195,7 +195,7 @@ class GroupInput extends React.PureComponent {
               <InputComponent
                 type="text_area"
                 errors={[]}
-                disabled={categories.length === 0}
+                // disabled={categories.length === 0}
                 onChange={e => this.onChangeValue('q2', e)}
                 value={data.q2}
               />
@@ -212,7 +212,7 @@ class GroupInput extends React.PureComponent {
               <input
                 style={{ marginLeft: 10 }}
                 type="radio"
-                disabled={categories.length === 0}
+                // disabled={categories.length === 0}
                 checked={data.answerId === 2}
                 onChange={() => this.onChangeValue('answerId', 2)}
               />
@@ -225,7 +225,7 @@ class GroupInput extends React.PureComponent {
               <InputComponent
                 type="text_area"
                 errors={[]}
-                disabled={categories.length === 0}
+                // disabled={categories.length === 0}
                 onChange={e => this.onChangeValue('q3', e)}
                 value={data.q3}
               />
@@ -242,7 +242,7 @@ class GroupInput extends React.PureComponent {
               <input
                 style={{ marginLeft: 10 }}
                 type="radio"
-                disabled={categories.length === 0}
+                // disabled={categories.length === 0}
                 checked={data.answerId === 3}
                 onChange={() => this.onChangeValue('answerId', 3)}
               />
@@ -255,7 +255,7 @@ class GroupInput extends React.PureComponent {
               <InputComponent
                 type="text_area"
                 errors={[]}
-                disabled={categories.length === 0}
+                // disabled={categories.length === 0}
                 onChange={e => this.onChangeValue('q4', e)}
                 value={data.q4}
               />

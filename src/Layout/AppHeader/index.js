@@ -36,7 +36,7 @@ class Header extends React.PureComponent {
           )}
           >
             <div style={{ width: '100%' }} className="app-header-right">
-              {/* <UserBox initialSetting={initialSetting} /> */}
+              <UserBox />
             </div>
           </div>
         </ReactCSSTransitionGroup>

@@ -3,7 +3,7 @@ import React, { Fragment, Component } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import PropTypes from 'prop-types';
 import {
-  Card, CardBody, CardHeader, Row, Col, Button, Modal, ModalBody,
+  Card, CardBody, CardHeader, Row, Col, Button, Modal, ModalBody, Input, Label,
 } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import Loader from 'react-loaders';
@@ -18,6 +18,9 @@ class index extends Component {
     super(props);
     this.state = {
       categories: [],
+      cats: [],
+      selectCat: '',
+      search: '',
       isOpen: false,
       editData: {},
       forceValidate: false,
@@ -25,10 +28,22 @@ class index extends Component {
       isDisable: false,
       categoryId: '',
     };
+    this.timeout = 0;
   }
 
   componentDidMount() {
     this.getQuestion();
+    this.getCategory();
+  }
+
+  async getCategory() {
+    try {
+      const result = await API.category.getCategory();
+      const cats = result && result.data;
+      this.setState({ cats, selectCat: cats[0].name });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getQuestion() {
@@ -41,6 +56,14 @@ class index extends Component {
       console.log(error);
     }
   }
+
+  doSearch() {
+    if (this.timeout) clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+
+    }, 300);
+  }
+
 
   async postQuestion() {
     const { editData } = this.state;
@@ -61,6 +84,7 @@ class index extends Component {
     && editData.q4 && editData.q4 !== ''
     && editData.subject && editData.subject !== ''
     && editData.answerId !== undefined
+    && editData.category !== undefined && editData.catId !== undefined
     ) {
       this.setState({ forceValidate: false, isOpen: false });
       try {
@@ -199,7 +223,12 @@ class index extends Component {
       editData,
       forceValidate,
       isEdit, isDisable,
+      cats, selectCat, search,
     } = this.state;
+
+    const filterd = search !== '' ? categories && categories.filter(cat => cat.category === selectCat && cat.subject.toLowerCase().includes(search.toLowerCase()))
+      : categories && categories.filter(cat => cat.category === selectCat);
+
     return (
       <Fragment>
         <ReactCSSTransitionGroup
@@ -217,7 +246,44 @@ class index extends Component {
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Card style={{ width: '90%' }} className="main-card mb-3">
               <CardHeader className="card-header-lg">
-                <div className="btn-actions-pane-right">
+                <div style={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
+                >
+                  <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                    <Label style={{ margin: 'auto' }}>
+                      Category
+                    </Label>
+                    <Input
+                      style={{ width: 160, marginLeft: 10 }}
+                      value={selectCat}
+                      type="select"
+                      onChange={(e) => {
+                        const indexing = e.nativeEvent.target.selectedIndex;
+                        this.setState({ selectCat: cats[indexing].name });
+                      }}
+                    >
+                      {
+                        cats.map(m => <option>{m.name}</option>)
+                      }
+                    </Input>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                    <Label style={{ margin: 'auto' }}>
+                      Search
+                    </Label>
+                    <Input
+                      style={{ width: 160, marginLeft: 10 }}
+                      value={search}
+                      type="input"
+                      onChange={(e) => {
+                        this.setState({ search: e.target.value }, () => this.doSearch());
+                      }}
+                    />
+                  </div>
                   <Button
                     style={{ backgroundColor: '#f49100', border: 'none' }}
                     className="btn-wide btn-shadow btn-hover-shine"
@@ -230,7 +296,7 @@ class index extends Component {
               </CardHeader>
               <CardBody style={{ marginLeft: 15 }}>
                 {categories.length === 0 ? <Emp name="Question Empty./" />
-                  : categories && categories.map((category, index) => this.renderRow(category, () => this.didPressEdit(category), index))}
+                  : filterd.length !== 0 ? filterd.map((category, index) => this.renderRow(category, () => this.didPressEdit(category), index)) : <Emp name={`Question about: ${selectCat} Empty./`} />}
               </CardBody>
             </Card>
           </div>

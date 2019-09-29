@@ -23,12 +23,12 @@ import './index.css';
 class UserBox extends React.Component {
   constructor(props) {
     super(props);
-    this.logout = this.logout.bind(this);
+    // this.logout = this.logout.bind(this);
     this.state = {
       item: {},
-      avatarUrl: '',
+      avatarUrl: 'https://dl.dropboxusercontent.com/s/puqlribtwkkzmg2/nexus-frontier-tech-logo.png',
     };
-    this.refreshNotificationService = this.refreshNotificationService.bind(this);
+    // this.refreshNotificationService = this.refreshNotificationService.bind(this);
   }
 
   // componentWillMount() {
@@ -102,28 +102,23 @@ class UserBox extends React.Component {
       history, initialSetting, t,
     } = this.props;
     const { item, avatarUrl } = this.state;
-    const admin = (window.location.href).includes('admin');
     return (
       <div style={{ flex: 1, display: 'flex' }}>
         <div
           style={{
             margin: 'auto auto auto 0',
           }}
-        >
-          {/* { (!admin && !initialSetting)
-          && (
-            <div className="widget-heading">
-              <text onClick={() => { history.push('/users'); service.setActions(); }} style={{ cursor: 'pointer', color: 'white' }}>{t('Company Dashboard')}</text>
-              <text onClick={() => { history.push('/users/my-profile'); service.setActions(); }} style={{ cursor: 'pointer', marginLeft: 15, color: 'white' }}>{t('My Profile')}</text>
-            </div>
-          ) } */}
-        </div>
+        />
         <div className="header-btn-lg">
           <div className="widget-content p-0">
             <div className="widget-content-wrapper">
               <div className="widget-content-left">
-                <UncontrolledButtonDropdown>
-                  <DropdownToggle color="link" className="p-0">
+                <img
+                  src={avatarUrl}
+                  alt="Nexus"
+                />
+                {/* <UncontrolledButtonDropdown> */}
+                {/* <DropdownToggle color="link" className="p-0">
                     <img
                       style={{
                         objectFit: 'cover',
@@ -136,22 +131,22 @@ class UserBox extends React.Component {
                       alt=""
                     />
                     <FontAwesomeIcon className="ml-2 opacity-8" icon={faAngleDown} />
-                  </DropdownToggle>
-                  <DropdownMenu right className="rm-pointers dropdown-menu-lg">
-                    <div style={{ height: 90 }} className="dropdown-menu-header">
-                      <div style={{ height: 115, borderRadius: 2 }} className="dropdown-menu-header-inner bg-info">
-                        <div
-                          className="menu-header-image opacity-2"
-                          style={{
-                            height: '100%',
-                            backgroundImage: `url(${city3})`,
-                          }}
-                        />
-                        <div className="menu-header-content text-left">
-                          <div className="widget-content p-0">
-                            <div className="widget-content-wrapper">
-                              <div className="widget-content-left mr-3">
-                                {avatarUrl && (
+                  </DropdownToggle> */}
+                <DropdownMenu right className="rm-pointers dropdown-menu-lg">
+                  <div style={{ height: 90 }} className="dropdown-menu-header">
+                    <div style={{ height: 115, borderRadius: 2 }} className="dropdown-menu-header-inner bg-info">
+                      <div
+                        className="menu-header-image opacity-2"
+                        style={{
+                          height: '100%',
+                          backgroundImage: `url(${city3})`,
+                        }}
+                      />
+                      <div className="menu-header-content text-left">
+                        <div className="widget-content p-0">
+                          <div className="widget-content-wrapper">
+                            <div className="widget-content-left mr-3">
+                              {avatarUrl && (
                                   <img
                                     style={{
                                       objectFit: 'cover',
@@ -165,30 +160,30 @@ class UserBox extends React.Component {
                                   />
                                 )
                                   }
-                              </div>
-                              <div className="widget-content-left">
-                                <div style={{ width: 140 }} className="widget-heading wrap-break-all">
+                            </div>
+                            <div className="widget-content-left">
+                              <div style={{ width: 140 }} className="widget-heading wrap-break-all">
                                   {item.lastName}
                                   {' '}
                                   {item.firstName}
                                 </div>
-                              </div>
-                              <div className="widget-content-right mr-2">
-                                <Button
+                            </div>
+                            <div className="widget-content-right mr-2">
+                              <Button
                                   className="btn-pill btn-shadow btn-shine"
                                   color="focus"
                                   onClick={this.logout}
                                 >
                                   {t('Logout')}
                                 </Button>
-                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </DropdownMenu>
-                </UncontrolledButtonDropdown>
+                  </div>
+                </DropdownMenu>
+                {/* </UncontrolledButtonDropdown> */}
               </div>
               <div className="widget-content-left  ml-3 header-user-info">
                 <div className="widget-heading">
