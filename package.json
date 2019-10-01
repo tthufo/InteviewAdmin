@@ -2,10 +2,8 @@
   "name": "architectui-react-pro",
   "version": "1.5.0",
   "private": true,
-  "description": "Profinanss",
+  "description": "InterviewAdmin",
   "author": "DashboardPack.com",
-  "proxy": "https://tthufo.github.io/InteviewAdmin",
-  "homepage": "https://tthufo.github.io/InteviewAdmin",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dpackdev/architectui-react-pro"
@@ -168,7 +166,7 @@
     "eject": "react-scripts eject",
     "translate": "./node_modules/.bin/ter-localization-cli serve",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "aws s3 sync build/ s3://nexusfrontier --acl public-read"
   },
   "eslintConfig": {
     "extends": "react-app"

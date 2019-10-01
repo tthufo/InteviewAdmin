@@ -147,7 +147,7 @@ class UserBox extends React.Component {
                           <div className="widget-content-wrapper">
                             <div className="widget-content-left mr-3">
                               {avatarUrl && (
-                                  <img
+                              <img
                                     style={{
                                       objectFit: 'cover',
                                       borderRadius: 30,
@@ -158,24 +158,24 @@ class UserBox extends React.Component {
                                     src={avatarUrl}
                                     alt=""
                                   />
-                                )
+                              )
                                   }
                             </div>
                             <div className="widget-content-left">
                               <div style={{ width: 140 }} className="widget-heading wrap-break-all">
-                                  {item.lastName}
-                                  {' '}
-                                  {item.firstName}
-                                </div>
+                                {item.lastName}
+                                {' '}
+                                {item.firstName}
+                              </div>
                             </div>
                             <div className="widget-content-right mr-2">
                               <Button
-                                  className="btn-pill btn-shadow btn-shine"
-                                  color="focus"
-                                  onClick={this.logout}
-                                >
-                                  {t('Logout')}
-                                </Button>
+                                className="btn-pill btn-shadow btn-shine"
+                                color="focus"
+                                onClick={this.logout}
+                              >
+                                {t('Logout')}
+                              </Button>
                             </div>
                           </div>
                         </div>
