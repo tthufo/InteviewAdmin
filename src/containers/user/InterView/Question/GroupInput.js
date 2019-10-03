@@ -2,9 +2,9 @@ import React from 'react';
 import {
   Row, Col, FormGroup, Label, Input,
 } from 'reactstrap';
+import Markdown from 'markdown-to-jsx';
 import API from '../../../../apis';
 import InputComponent from '../../../../components/FormGroup/Input';
-import question from '../../../../apis/question';
 
 const ErrorMessage = ({
   message, forceValidate, edited,
@@ -130,20 +130,38 @@ class GroupInput extends React.PureComponent {
           </Col>
           <Col xl={12}>
             <FormGroup>
-              <Label><b>Question</b></Label>
-              <br />
-              <InputComponent
-                type="text_area"
-                // disabled={categories.length === 0}
-                errors={[]}
-                onChange={e => this.onChangeValue('subject', e)}
-                value={data.subject}
-              />
-              <ErrorMessage
-                message="Question empty./"
-                edited={data.subject && data.subject !== ''}
-                forceValidate={forceValidate}
-              />
+              <Row>
+                <Col xl={6}>
+                  <Label><b>Question</b></Label>
+                  <br />
+                  <InputComponent
+                    type="text_area"
+                    errors={[]}
+                    maxHeight={250}
+                    onChange={e => this.onChangeValue('subject', e)}
+                    value={data.subject}
+                  />
+                  <ErrorMessage
+                    message="Question empty./"
+                    edited={data.subject && data.subject !== ''}
+                    forceValidate={forceValidate}
+                  />
+                </Col>
+                <Col xl={6}>
+                  <Label><b>Preview With MD</b></Label>
+                  <br />
+                  {data.subject && (
+                    <div style={{
+                      padding: 10, height: 250, overflow: 'auto', border: '1.5px dashed gray',
+                    }}
+                    >
+                      <Markdown>
+                        {data.subject}
+                      </Markdown>
+                    </div>
+                  )}
+                </Col>
+              </Row>
             </FormGroup>
           </Col>
           <Col xl={6}>

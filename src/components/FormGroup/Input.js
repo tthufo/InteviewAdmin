@@ -64,7 +64,7 @@ class InputComponent extends React.Component {
   render() {
     const {
       error, type, options, normal, limit,
-      name, t, value, onChange, disabled,
+      name, t, value, onChange, disabled, maxHeight,
     } = this.props;
     const input_err = this.findError(name);
     const validLimit = limit === undefined ? 12 : limit;
@@ -144,7 +144,7 @@ class InputComponent extends React.Component {
             <Input
               {...this.props}
               type="textarea"
-              style={{ height: 120, resize: 'none', backgroundImage: 'none' }}
+              style={{ height: maxHeight || 120, resize: 'none', backgroundImage: 'none' }}
               className={input_err.isError ? 'is-invalid form-control' : ''}
             />
             <div

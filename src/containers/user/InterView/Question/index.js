@@ -8,11 +8,16 @@ import {
 import { withRouter } from 'react-router-dom';
 import Loader from 'react-loaders';
 import { toast } from 'react-toastify';
+import Markdown from 'markdown-to-jsx';
 import GroupInput from './GroupInput';
 import API from '../../../../apis';
 import PageTitle from '../../../../Layout/AppMain/PageTitle';
 import Emp from '../empty';
 
+function trim(input, length) {
+  if (input.length > length) { return `${input.substring(0, length)}...`; }
+  return input;
+}
 class index extends Component {
   constructor(props) {
     super(props);
@@ -50,7 +55,6 @@ class index extends Component {
     try {
       const result = await API.question.getAnswer();
       const categories = result && result.data;
-      console.log(categories);
       this.setState({ categories });
     } catch (error) {
       console.log(error);
@@ -191,9 +195,11 @@ class index extends Component {
               {indexing + 1}
               {' | '}
             </text>
-            <text style={{ margin: 'auto', width: '45%' }}>
-              {category.subject}
-            </text>
+            {/* <text style={{ margin: 'auto', width: '45%' }}> */}
+            <Markdown style={{ margin: 'auto', width: '45%' }}>
+              {trim(category.subject, 135)}
+            </Markdown>
+            {/* </text> */}
             <text style={{ margin: 'auto 10px auto 10px', width: '50%' }}>
               Category:
               {' '}
